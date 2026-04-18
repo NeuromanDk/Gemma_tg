@@ -91,5 +91,9 @@ app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-print("Бот запущен...")
-app.run_polling()
+import asyncio
+
+if __name__ == "__main__":
+    asyncio.set_event_loop(asyncio.new_event_loop())
+    print("Бот запущен...")
+    app.run_polling()
