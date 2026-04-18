@@ -7,7 +7,7 @@ from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, fil
 
 TOKEN = os.environ.get("TG_TOKEN")
 OPENROUTER_KEY = os.environ.get("OPENROUTER_KEY")
-MODEL = "google/gemma-3-27b-it:free"
+MODEL = "google/gemma-4-26b-a4b-it:free"
 LLM_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 logging.basicConfig(level=logging.INFO)
