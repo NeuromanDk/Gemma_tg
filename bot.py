@@ -43,7 +43,7 @@ async def call_agent(session: aiohttp.ClientSession, agent: dict, user_input: st
                     {"role": "user", "content": user_input}
                 ],
                 "temperature": agent["temperature"],
-                "max_tokens": 1000
+                "max_tokens": 600
             },
             timeout=aiohttp.ClientTimeout(total=60)
         ) as response:
