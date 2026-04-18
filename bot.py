@@ -53,7 +53,7 @@ async def call_agent(session: aiohttp.ClientSession, agent: dict, user_input: st
         return f"[Ошибка: {e}]"
 
 
-async def ask_all_agents(user_input: str) -> str:
+async def ask_all_agents_list(user_input: str) -> list:
     async with aiohttp.ClientSession() as session:
         tasks = [call_agent(session, agent, user_input) for agent in AGENTS]
         results = await asyncio.gather(*tasks)
@@ -62,18 +62,18 @@ async def ask_all_agents(user_input: str) -> str:
     for agent, result in zip(AGENTS, results):
         parts.append(f"{agent['name']}:\n{result}")
 
-    return "\n\n---\n\n".join(parts)
+    return parts
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_input = update.message.text
     await update.message.reply_text("⏳ Спрашиваю трёх агентов...")
 
-    response = await ask_all_agents(user_input)
+    results = await ask_all_agents_list(user_input)
 
     # Telegram лимит 4096 символов — режем если длиннее
-    if len(response) > 4096:
-        response = response[:4090] + "\n[...]"
+    for text in results:
+        await update.message.reply_text(text)
 
     await update.message.reply_text(response)
 
